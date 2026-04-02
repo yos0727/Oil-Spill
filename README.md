@@ -4,9 +4,7 @@
 
 ## 📁 Key Project Files
 - [create_dataset.py](#-create_datasetpy)  
-- [main.py](#-mainpy)  
-- [yolo.py](#-yolopy)  
-- [deeplabv3.py](#-deeplabv3py)  
+- [trainer.py](#-trainerpy)  
 
 ---
 
@@ -20,7 +18,7 @@
 - scikit-learn
 - Ultralytics
 - PyYAML
-
+>⚠️ It's a incomplete requirements list
 
 ---
 
@@ -102,7 +100,7 @@ splits/
 
 ---
 
-## 📄 main.py
+## 📄 trainer.py
 
 ### Class `BaseTrainer`
 `BaseTrainer` is an **abstract base class (ABC)** responsible for:
@@ -236,83 +234,4 @@ def _predict(
         self.results.append(new_prediction)
     This method will be called by other and the path checking already implements in the caller method
     """
-```
-
----
-
-## 📄 yolo.py
-### Class `YoloTrainer`
-### Method `load_model`
-Has an additional parameter `version` to decide the version of yolo model (default is 11).<br>
-### Method `train`
-NOTE: parameter `dst` need to have at least two layer(e.g. models\foo). 
-the details of the parameters `**kwargs` are in the following table
-
-| Parameter | Type           | Default | Description                                           |
-|:----------|:---------------|:--------|:------------------------------------------------------|
-| epochs    | int            | 300     | Number of training epochs                             |
-| imgsz     | int            | 512     | Target image size for training                        |
-| batch     | int            | 16      | Batch size for training                               |
-| optimizer | str            | 'SGD'   | Choice of optimizer for training                      |
-| lr0       | float          | 0.01    | Initial learning rate                                 |
-| box       | float          | 6       | Weight of the box loss component in the loss function |
-| device    | int, str, list | 0       | Specifies the computational device(s) for training    |
-| workers   | int            | 8       | Number of worker threads for data loading             |
-[Details of other parameters](https://docs.ultralytics.com/modes/train/#train-settings)
-
-### Usage Example
-#### Example 1: Train & Test
-```python
-src = r"datasets\baseline"
-dst = r"runs\YOLOv11"
-
-trainer = YoloTrainer()
-trainer.load_model(version=11)
-trainer.train(src, epochs=10, batch=16, save=False)
-trainer.test(src, dst)
-```
-#### Example 2: Cross Validation
-```python
-src = r"datasets\kfold_dataset"
-dst = r"runs\YOLOv11\kfold"
-
-trainer = YoloTrainer()
-trainer.load_model(version=11)
-trainer.kfold(src, epochs=10, batch=16, save=True)
-```
-
----
-
-## 📄 deeplabv3.py
-### Class `DeeplabTrainer`
-### Method `train`
-the details of the parameters `**kwargs` are in the following table
-
-| Parameter  | Type  | Default | Description                               |
-|:-----------|:------|:--------|:------------------------------------------|
-| epochs     | int   | 200     | Number of training epochs                 |
-| image_size | int   | 512     | Target image size for training            |
-| batch      | int   | 16      | Batch size for training                   |
-| lr         | float | 0.001   | Initial learning rate                     |
-| workers    | int   | 6       | Number of worker threads for data loading |
-
-### Usage Example
-#### Example 1: Train & Test
-```python
-src = r"datasets\baseline"
-dst = r"runs\Deeplabv3"
-
-trainer = DeeplabTrainer()
-trainer.load_model()
-trainer.train(src, dst, epochs=10, batch=16, save=False)
-trainer.test(src, dst)
-```
-#### Example 2: Cross Validation
-```python
-src = r"datasets\kfold_dataset"
-dst = r"runs\Deeplabv3\kfold"
-
-trainer = DeeplabTrainer()
-trainer.load_model(version=11)
-trainer.kfold(src, epochs=10, batch=16, save=True)
 ```
